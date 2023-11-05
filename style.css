@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    --white: #FFF;
+    --black: #24292f;
+    --gray: #8F91A4;
+    --dark-gray: #5B5A6D;
+    color-scheme: light;
+}
+body {
+    background-color: var(--white);
+    color: var(--black);
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    line-height: 1.6;
+    justify-content: center;
+}
+a {
+    color: var(--black);
+    text-decoration: none !important;
+}
+/* header */
+header {
+    background-color: var(--black);
+    padding: 2rem;
+}
+header a {
+    color: var(--white);
+}
+h1 {
+    font-size: 36px;
+}
+form {
+    display: flex;
+    margin-top: 2rem;
+    justify-content: center;
+}
+#search-input {
+    width: 30%;
+    letter-spacing: 0.5px;
+    color: var(--black);
+    max-width: 400px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px 0 0 50px;;
+}
+input:active {
+    border: none;
+}
+form button {
+    cursor: pointer;
+    background-color: var(--gray);
+    color: var(--white);
+    padding: 10px 30px;
+    margin-left: 0;
+    border-radius: 0 50px 50px 0;
+    border: none;
+}
+.search p {
+    color: var(--gray);
+    margin-top: 10px;
+    font-family: serif;
+}
+.pre-tags pre {
+    cursor: pointer;
+    margin-top: 1rem;
+    margin-right: 0.4em;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--white);
+    color: var(--black);
+    border: none;
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 150px;
+}
+pre .open_grepper_editor {
+    display: none !important;
+}
+/* main */
+main {
+    margin-bottom: 3rem;
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    margin: 1rem;
+    width: 47%;
+    background-color: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--black) 0px 5px 2px;
+    transition: .1s;
+}
+.card:hover {
+    box-shadow: var(--black) 0px 0px 2px;
+}
+.card img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: opacity .2s ease-in-out;
+}
+.card:hover img {
+    opacity: 0.9;
+}
+.card a {
+    display: table;
+    content: "";
+    clear: both;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0.5rem;
+    font-size: 20px;
+    text-decoration: none;
+    color: var(--black);
+    text-transform: capitalize;
+}
+main button {
+    display: none;
+    cursor: pointer;
+    background-color: var(--black);
+    color: var(--white);
+    padding: 10px 30px;
+    border-radius: 50px;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+main button:hover {
+    background-color: #000000ba;
+}
+/* footer */
+footer {
+    color: var(--black);
+    width: 90%;
+    margin: 0 auto;
+    bottom: 0;
+    border-top: 1px solid var(--black);
+    padding-top: 4rem;
+    padding-bottom: 2rem;
+}
+footer a {
+    text-decoration: none !important;
+    border-bottom: 1px solid var(--black);
+}
+footer a:hover {
+    border-bottom: none;
+}
+@media(max-width: 575px) {
+    header {
+        padding: 1rem;
+    }
+    form button {
+        padding: 10px;
+    }
+    h1 {
+        font-size: 26px;
+    }
+    header h1 img {
+        height: 20px;
+    }
+}
+@media(max-width: 1000px) {
+    #search-input {
+        width: 50%;
+    }
+    form button {
+        width: none;
+    }
+    .card {
+        width: 100%;
+    }
+}
