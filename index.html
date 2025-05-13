@@ -12,15 +12,34 @@
     <title>Modern Image Search</title>
     <link rel="icon" type="image/x-icon" href="images/search.svg">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/bold/style.css">
 </head>
 <body>
-    <header>
-        <h1><a href="index.html"><img src="images/search.svg" alt="Search Icon" height="32"> Image Search</a></h1>
-        <form>
-            <input type="text" id="search-input" placeholder="Search for stunning images...">
-            <button id="search-button" type="submit">Search</button>
-        </form>
-        <div class="search">
+    <nav>
+        <div class="nav-content">
+            <h1><a href="index.html"><i class="ph-bold ph-image"></i> ImageVerse</a></h1>
+            <div class="nav-right">
+                <button id="theme-toggle" aria-label="Toggle theme">
+                    <i class="ph-bold ph-sun"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h2>Discover the world through images</h2>
+            <p>Search millions of high-quality photos from talented creators</p>
+            <form>
+                <div class="search-wrapper">
+                    <i class="ph-bold ph-magnifying-glass"></i>
+                    <input type="text" id="search-input" placeholder="Search for stunning images...">
+                </div>
+                <button id="search-button" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="trending">
+            <h3>Trending:</h3>
             <div class="pre-tags">
                 <pre>nature</pre>
                 <pre>animals</pre>
@@ -30,20 +49,49 @@
                 <pre>architecture</pre>
                 <pre>art</pre>
                 <pre>space</pre>
+                <pre>minimal</pre>
+                <pre>abstract</pre>
             </div>
         </div>
     </header>
+
     <main>
+        <div class="featured">
+            <h2>Featured Collections</h2>
+            <div class="collections">
+                <div class="collection" data-query="nature">
+                    <img src="https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg" alt="Nature">
+                    <h3>Nature</h3>
+                </div>
+                <div class="collection" data-query="architecture">
+                    <img src="https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg" alt="Architecture">
+                    <h3>Architecture</h3>
+                </div>
+                <div class="collection" data-query="minimal">
+                    <img src="https://images.pexels.com/photos/6444/pencil-typography-black-design.jpg" alt="Minimal">
+                    <h3>Minimal</h3>
+                </div>
+            </div>
+        </div>
+
         <div class="container">
             <!-- Images will be loaded here -->
         </div>
         <button id="retry-button">Try Another Search</button>
         <button id="load-more-btn">Load More</button>
     </main>
+
     <footer>
-        <p>
-            © 2023 <a href="https://shafni50.github.io/">Safni Nazar</a> | Images from <a href="https://unsplash.com/" target="_blank">Unsplash</a>
-        </p>
+        <div class="footer-content">
+            <div class="footer-left">
+                <h3><i class="ph-bold ph-image"></i> ImageVerse</h3>
+                <p>Discover and share the world's best photos</p>
+            </div>
+            <div class="footer-right">
+                <p>© 2023 <a href="https://shafni50.github.io/">Safni Nazar</a></p>
+                <p>Images from <a href="https://unsplash.com/" target="_blank">Unsplash</a></p>
+            </div>
+        </div>
     </footer>
     <script src="script.js"></script>
 </body>

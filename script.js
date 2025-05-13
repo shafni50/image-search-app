@@ -5,9 +5,29 @@ const inputEl = document.querySelector('#search-input');
 const searchResults = document.querySelector('.container');
 const retryButton = document.querySelector('#retry-button');
 const loadMore = document.querySelector('#load-more-btn');
+const themeToggle = document.querySelector('#theme-toggle');
+const collections = document.querySelectorAll('.collection');
 
 let inputData = '';
 let page = 1;
+
+// Theme handling
+const theme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', theme);
+updateThemeIcon();
+
+function updateThemeIcon() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    themeToggle.innerHTML = isDark ? '<i class="ph-bold ph-sun"></i>' : '<i class="ph-bold ph-moon"></i>';
+}
+
+themeToggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon();
+});
 
 // Create toast element
 const toast = document.createElement('div');
@@ -20,6 +40,15 @@ function showToast(message, duration = 3000) {
     setTimeout(() => {
         toast.classList.remove('show');
     }, duration);
+}
+
+function createActionButton(icon, tooltip, onClick) {
+    const button = document.createElement('button');
+    button.className = 'action-button action-tooltip';
+    button.setAttribute('data-tooltip', tooltip);
+    button.innerHTML = `<i class="ph-bold ph-${icon}"></i>`;
+    button.addEventListener('click', onClick);
+    return button;
 }
 
 async function searchImages() {
@@ -64,17 +93,17 @@ async function searchImages() {
                 actionsDiv.classList.add('card-actions');
 
                 // View button
-                const viewButton = createActionButton('View', 'primary-button', () => {
+                const viewButton = createActionButton('eye', 'View', () => {
                     window.open(result.links.html, '_blank');
                 });
 
                 // Download button
-                const downloadButton = createActionButton('Download', 'secondary-button', () => {
+                const downloadButton = createActionButton('download', 'Download', () => {
                     window.open(result.links.download, '_blank');
                 });
 
                 // Share button
-                const shareButton = createActionButton('Share', 'secondary-button', async () => {
+                const shareButton = createActionButton('share', 'Share', async () => {
                     if (navigator.share) {
                         try {
                             await navigator.share({
@@ -117,14 +146,6 @@ async function searchImages() {
     }
 }
 
-function createActionButton(text, className, onClick) {
-    const button = document.createElement('button');
-    button.textContent = text;
-    button.classList.add('action-button', className);
-    button.addEventListener('click', onClick);
-    return button;
-}
-
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text)
         .then(() => {
@@ -135,6 +156,17 @@ function copyToClipboard(text) {
             showToast('Failed to copy link');
         });
 }
+
+// Event Listeners
+collections.forEach(collection => {
+    collection.addEventListener('click', () => {
+        const query = collection.dataset.query;
+        inputEl.value = query;
+        page = 1;
+        inputData = query;
+        searchImages();
+    });
+});
 
 retryButton.addEventListener('click', () => {
     inputEl.value = '';
