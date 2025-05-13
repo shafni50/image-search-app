@@ -9,9 +9,22 @@ const loadMore = document.querySelector('#load-more-btn');
 let inputData = '';
 let page = 1;
 
+// Create toast element
+const toast = document.createElement('div');
+toast.classList.add('toast');
+document.body.appendChild(toast);
+
+function showToast(message, duration = 3000) {
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, duration);
+}
+
 async function searchImages() {
     try {
-        const url = `https://api.unsplash.com/search/photos?page=${page}&query=${inputData}&client_id=${accesskey}`;
+        const url = `https://api.unsplash.com/search/photos?page=${page}&query=${inputData}&client_id=${accesskey}&per_page=12`;
         const response = await fetch(url);
         const data = await response.json();
         const results = data.results;
@@ -31,12 +44,17 @@ async function searchImages() {
                 imageWrapper.classList.add('card');
 
                 const image = document.createElement('img');
-                image.src = result.urls.small;
+                image.src = result.urls.regular;
                 image.alt = result.alt_description;
                 image.title = result.alt_description;
+                image.loading = 'lazy';
 
                 const contentDiv = document.createElement('div');
                 contentDiv.classList.add('card-content');
+
+                const photographerInfo = document.createElement('p');
+                photographerInfo.classList.add('photographer-info');
+                photographerInfo.innerHTML = `Photo by <a href="${result.user.links.html}" target="_blank">${result.user.name}</a>`;
 
                 const title = document.createElement('h3');
                 title.classList.add('card-title');
@@ -56,16 +74,20 @@ async function searchImages() {
                 });
 
                 // Share button
-                const shareButton = createActionButton('Share', 'secondary-button', () => {
+                const shareButton = createActionButton('Share', 'secondary-button', async () => {
                     if (navigator.share) {
-                        navigator.share({
-                            title: result.alt_description || 'Shared Image',
-                            text: 'Check out this image from Unsplash!',
-                            url: result.links.html
-                        });
+                        try {
+                            await navigator.share({
+                                title: result.alt_description || 'Shared Image',
+                                text: 'Check out this image from Unsplash!',
+                                url: result.links.html
+                            });
+                            showToast('Successfully shared!');
+                        } catch (err) {
+                            copyToClipboard(result.links.html);
+                        }
                     } else {
                         copyToClipboard(result.links.html);
-                        alert('Link copied to clipboard!');
                     }
                 });
 
@@ -74,6 +96,7 @@ async function searchImages() {
                 actionsDiv.appendChild(shareButton);
 
                 contentDiv.appendChild(title);
+                contentDiv.appendChild(photographerInfo);
                 contentDiv.appendChild(actionsDiv);
 
                 imageWrapper.appendChild(image);
@@ -81,8 +104,12 @@ async function searchImages() {
                 searchResults.appendChild(imageWrapper);
             });
 
-            page++;
-            loadMore.style.display = 'block';
+            if (results.length >= 12) {
+                page++;
+                loadMore.style.display = 'block';
+            } else {
+                loadMore.style.display = 'none';
+            }
         }
     } catch (error) {
         console.error('Error fetching images:', error);
@@ -99,9 +126,14 @@ function createActionButton(text, className, onClick) {
 }
 
 function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).catch(err => {
-        console.error('Failed to copy text:', err);
-    });
+    navigator.clipboard.writeText(text)
+        .then(() => {
+            showToast('Link copied to clipboard!');
+        })
+        .catch(err => {
+            console.error('Failed to copy text:', err);
+            showToast('Failed to copy link');
+        });
 }
 
 retryButton.addEventListener('click', () => {
